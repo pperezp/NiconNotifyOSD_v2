@@ -118,10 +118,10 @@ public class Notification {
      * @param theme 
      */
     
-    public static void show(String title, String message,char theme) {
+    public static void show(String title, String message, String urlImage) {
         init_Server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
-        notify = new DesktopNotify(event,theme);
+        notify = new DesktopNotify(event,urlImage);
         serverOSD.send(notify, time_out);
     }
     
