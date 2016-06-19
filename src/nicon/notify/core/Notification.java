@@ -23,6 +23,8 @@
 
 package nicon.notify.core;
 
+import java.awt.Dimension;
+import java.io.File;
 import nicon.notify.core.server.ServerOSD;
 import nicon.notify.core.util.NotifyConfig;
 import nicon.notify.gui.desktopNotify.DesktopConfirm;
@@ -118,10 +120,17 @@ public class Notification {
      * @param theme 
      */
     
-    public static void show(String title, String message, String urlImage) {
-        init_Server();
+    public static void show(String title, String message, File imageFile, int timeOut, Dimension imageSize){
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
-        notify = new DesktopNotify(event,urlImage);
+        notify = new DesktopNotify(event, imageFile, imageSize);
+        serverOSD.send(notify, timeOut);
+    }
+    
+    public static void show(String title, String message,char theme) {
+        init_server();
+        event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
+        notify = new DesktopNotify(event, theme);
         serverOSD.send(notify, time_out);
     }
     
@@ -138,7 +147,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme,int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event,theme);
         serverOSD.send(notify, timeout);
@@ -163,7 +172,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme, byte type) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, type);
         notify = new DesktopNotify(event,theme);
         serverOSD.send(notify, time_out);
@@ -183,7 +192,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme, byte type, int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, type);
         notify = new DesktopNotify(event,theme);
         serverOSD.send(notify, timeout);
@@ -202,7 +211,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme, boolean sound) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event,theme);
             if(sound) notify.playSound(0);        
@@ -222,7 +231,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme, boolean sound,int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event,theme);
             if(sound) notify.playSound(0); 
@@ -245,7 +254,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme,boolean sound, byte type) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, type);
         notify = new DesktopNotify(event,theme);
         
@@ -279,7 +288,7 @@ public class Notification {
     
     public static void show(String title, String message,char theme,boolean 
                             sound, byte type,int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, type);
         notify = new DesktopNotify(event,theme);
        
@@ -313,7 +322,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme,short icon) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event, icon, theme);
         serverOSD.send(notify, time_out);
@@ -333,7 +342,7 @@ public class Notification {
      */
     
     public static void show(String title, String message,char theme,short icon,int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event, icon, theme);
         serverOSD.send(notify, timeout);
@@ -356,7 +365,7 @@ public class Notification {
      * @param sound
      */
     public static void show(String title, String message,char theme,short icon,boolean sound) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event, icon,theme);
         serverOSD.send(notify, time_out);
@@ -383,7 +392,7 @@ public class Notification {
      * @param timeout
      */
     public static void show(String title, String message,char theme,short icon,boolean sound,int timeout) {
-        init_Server();
+        init_server();
         event = new NiconEvent(title, message, Notification.DEFAULT_MESSAGE);
         notify = new DesktopNotify(event, icon,theme);
         serverOSD.send(notify, timeout);
@@ -402,7 +411,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme);
@@ -425,7 +434,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme);
@@ -448,7 +457,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme, byte type){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,type);
         confirm = new DesktopConfirm(event,theme);
@@ -472,7 +481,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme, byte type,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,type);
         confirm = new DesktopConfirm(event,theme);
@@ -496,7 +505,7 @@ public class Notification {
      * @return int response
      */
     public static int showConfirm(String title, String message,char theme,boolean sound){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event);
@@ -524,7 +533,7 @@ public class Notification {
      * @return int response
      */
     public static int showConfirm(String title, String message,char theme,boolean sound,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme);
@@ -551,7 +560,7 @@ public class Notification {
      * @return int response
      */
     public static int showConfirm(String title, String message,char theme,boolean sound,byte type){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,type);
         confirm = new DesktopConfirm(event);
@@ -588,7 +597,7 @@ public class Notification {
      * @return int response
      */
     public static int showConfirm(String title, String message,char theme,boolean sound,byte type,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,type);
         confirm = new DesktopConfirm(event);
@@ -622,7 +631,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme,short icon){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme,icon);
@@ -646,7 +655,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme,short icon,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme,icon);
@@ -670,7 +679,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme,short icon,boolean sound){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme,icon);
@@ -699,7 +708,7 @@ public class Notification {
      * @return 
      */
     public static int showConfirm(String title, String message,char theme,short icon,boolean sound,int timeout){
-        init_Server();
+        init_server();
         option=-1;
         event=new NiconEvent(title,message,Notification.DEFAULT_MESSAGE);
         confirm = new DesktopConfirm(event,theme,icon);
@@ -719,7 +728,7 @@ public class Notification {
      * Inicialia el servidor de notificaciones ServerOSD.
      */
     
-    private static void init_Server(){
+    private static void init_server(){
         System.out.println("Starting NiconNotifyOSD "+NotifyConfig.getInstance().getVersionLib());
         serverOSD = ServerOSD.getInstance();
     }
@@ -729,7 +738,7 @@ public class Notification {
      * Muestra la informacion básica de NiconNotifyOSD
      */
     public static void showVersionLib(){
-        init_Server();
+        init_server();
         String title=NotifyConfig.getInstance().getNameLib();
         String version=NotifyConfig.getInstance().getVersionLib();
         String info=NotifyConfig.getInstance().getInfoLib();

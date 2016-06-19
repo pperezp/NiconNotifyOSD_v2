@@ -25,6 +25,7 @@ package nicon.notify.gui.desktopNotify;
 
 import java.applet.AudioClip;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,6 +76,7 @@ public class DesktopNotify extends JDialog implements ActionListener{
     private JPanel panel;  
     private String urlSound;
     
+    private Dimension imageSize = new Dimension(65, 65);
     /**
      * Este metodo constructor permite crear una nueva notificacion de escritorio
      * de forma que se configura por defecto con la informacion y caracteristicas
@@ -227,6 +229,43 @@ public class DesktopNotify extends JDialog implements ActionListener{
         setIconOption();
     }
     
+    public DesktopNotify(NiconEvent ev,File fileUrlIcon,Dimension imageSize){
+        this.imageSize = imageSize;
+        this.ev=ev;
+        this.icon=-1;        
+        this.urlIcon=fileUrlIcon.getAbsolutePath();
+        this.theme=NiconDarkTheme.getInstance();
+        this.config=NotifyConfig.getInstance();
+        this.util=NotifyUtil.getInstance();
+        this.setNiconTheme();        
+        setSize(380,imageSize.height);
+        setUndecorated(true);
+        setAlwaysOnTop(true);
+        setResizable(false);
+        init();        
+        setDesktopInterface();
+        setIconOption();
+    }
+    
+    public DesktopNotify(NiconEvent ev,File fileUrlIcon, Dimension imageSize, Dimension size){
+        this.imageSize = imageSize;
+        this.ev=ev;
+        this.icon=-1;        
+        this.urlIcon=fileUrlIcon.getAbsolutePath();
+        this.theme=NiconDarkTheme.getInstance();
+        this.config=NotifyConfig.getInstance();
+        this.util=NotifyUtil.getInstance();
+        this.setNiconTheme();        
+//        setSize(380,98);
+        setSize(size);
+        setUndecorated(true);
+        setAlwaysOnTop(true);
+        setResizable(false);
+        init();        
+        setDesktopInterface();
+        setIconOption();
+    }
+    
     /**
      * Metodo que inicia el proceso de carga y configuracion de la notificacion
      */
@@ -244,15 +283,18 @@ public class DesktopNotify extends JDialog implements ActionListener{
         jbClose.addActionListener(this);
                 
         jlIcon=new JLabel();
-        jlIcon.setBounds(0,0,65,65);
+        jlIcon.setBounds(0,0,imageSize.width,imageSize.height);
         
         jlTitle=new JLabel(ev.getTitleEvent());
         jlTitle.setFont(config.getTitleFontDesk());
-        jlTitle.setBounds(72,6,305, 18);
+        
+        int y = (int)imageSize.getWidth() / 4;
+        
+        jlTitle.setBounds((int)imageSize.getWidth()+10,y,305, 18);
         
         jlMessage=new NLabel(util.setTextMessageEvent(ev.getTextEvent()));
         jlMessage.setFont(config.getMessageFontDesk());
-        jlMessage.setBounds(72,30,299,53);
+        jlMessage.setBounds((int)imageSize.getWidth()+10,y+30,299,53);
         jlMessage.setForeground(new Color(Integer.parseInt(theme.getMessageForeground(),16)));
                 
         panel.add(jlIcon);
@@ -356,7 +398,7 @@ public class DesktopNotify extends JDialog implements ActionListener{
                 File file=new File(urlIcon);
                     if(file.exists()){
                         ImageIcon prevIcon=new ImageIcon(file.getPath());
-                        setIconNotify(new ImageIcon(prevIcon.getImage().getScaledInstance(67, 67, Image.SCALE_DEFAULT)));
+                        setIconNotify(new ImageIcon(prevIcon.getImage().getScaledInstance(imageSize.width, imageSize.height, Image.SCALE_SMOOTH)));
                     }
             } catch (Exception ex) {
                 Logger.getLogger(DesktopNotify.class.getName()).log(Level.SEVERE, null, ex);
