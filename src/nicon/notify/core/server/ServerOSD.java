@@ -91,7 +91,7 @@ public class ServerOSD{
     */
     public void send(DesktopNotify notify, int time){
         try{
-            if(stackServer.size()<=4){
+//            if(stackServer.size()<=4){
                 notify.setNid(createNID());
                 System.out.println("ServerOSD: Stack size: "+stackServer.size());
                 stackServer.put(nid, notify);
@@ -104,7 +104,7 @@ public class ServerOSD{
                 System.out.println("ServerOSD: Notification is Launched nid:"+nid);
                 notify.setVisible(true);
                 prev_vertical_position = notify.getY();
-            }
+//            }
         }catch(Exception e){
            System.out.println("ServerOSD: Exception in send():\n"+e);
         }

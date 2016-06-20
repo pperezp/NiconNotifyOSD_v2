@@ -29,6 +29,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +57,7 @@ import nicon.notify.gui.themes.NiconTheme;
  * 
  * @author frederick
  */
-public class DesktopNotify extends JDialog implements ActionListener{
+public class DesktopNotify extends JDialog implements ActionListener, MouseListener{
     
           
     private final NiconEvent ev;
@@ -281,6 +283,8 @@ public class DesktopNotify extends JDialog implements ActionListener{
         jbClose.setContentAreaFilled(false);
         jbClose.setIcon(new ImageIcon(getClass().getResource(config.getNitruxIconsPath()+"CloseNotify.png")));
         jbClose.addActionListener(this);
+        panel.addMouseListener(this);
+        this.addMouseListener(this);
                 
         jlIcon=new JLabel();
         jlIcon.setBounds(0,0,imageSize.width,imageSize.height);
@@ -300,7 +304,10 @@ public class DesktopNotify extends JDialog implements ActionListener{
         panel.add(jlIcon);
         panel.add(jlTitle);
         panel.add(jlMessage);
-        panel.add(jbClose);
+//        panel.add(jbClose);
+
+        jlTitle.addMouseListener(this);
+        jlMessage.addMouseListener(this);
         add(panel);         
     }
     
@@ -534,6 +541,27 @@ public class DesktopNotify extends JDialog implements ActionListener{
         if(e.getSource().equals(this.jbClose)){
             ServerOSD.getInstance().remove(getNid());
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        ServerOSD.getInstance().remove(getNid());
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
       
 }
